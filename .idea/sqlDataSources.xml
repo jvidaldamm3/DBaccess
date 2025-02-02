@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="8411526e-8a6a-4206-84ac-3565cab5e836" name="@localhost Mapping">
+      <data-sources db="b281b69b-2575-4714-83f9-2e6618475c99" ddl="eec5e00f-19f8-436a-a8d0-51924e65e73d" />
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="2a7ab85c-f101-4f2f-88e3-b3988783ea2e" />
+          <option name="name" value="DDL data source" />
+          <option name="dbmsName" value="MARIADB" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/database" />
+            </array>
+          </option>
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
+  </component>
+</project>

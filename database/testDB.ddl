@@ -1,0 +1,19 @@
+-- Create a test database
+CREATE SCHEMA TEST;
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    user_name VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_users_name ON users(user_name);
+
+CREATE INDEX idx_users_email ON users(email);
+
+

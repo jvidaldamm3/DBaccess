@@ -9,53 +9,62 @@
 
  */
 
-import mysql from 'mysql2/promise';
+import mysql from 'mariadb';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
     dotenv.config();
 
-const sslPaths = {
-    ca_path: process.env.SSL_CA_PATH,
-}
 
 const sslOptions = {
-    ca: fs.readFileSync(path.resolve(__dirname, sslPaths.ca_path)),
-    cert: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CERT_PATH)),
-    key: fs.readFileSync(path.resolve(__dirname, process.env.SSL_KEY_PATH)),
+    //Path are relative to this file directory
+    ca: fs.readFileSync(path.resolve( __dirname + "/../ssl/" + "ca-cert.pem"), 'utf8'),
+    cert: fs.readFileSync(path.resolve(__dirname + "/../ssl/"  + "client-cert.pem"), 'utf8'),
+    key: fs.readFileSync(path.resolve(__dirname + "/../ssl/" + "client-key.pem"), 'utf8'),
     rejectUnauthorized: true    // Reject unauthorized connections
 };
 
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.PORT,
+    host: "127.0.0.1",
+    user: "test",
+    password: "test",
+    database: "test",
+    port: "3306",
     ssl: sslOptions
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function connectToDatabaseSSL() {
     try{
-        const connection = await mysql.createConnection(dbConfig);
+
+        let connection = await mysql.createConnection(
+            {
+                host: "127.0.0.1",
+                user: "root",
+                password: "",
+                database: "",
+
+            } )
         console.log("Connected to Database with SSL");
-        console.dir(connection);
 
         //Example SELECT query
-        const [rows] = await Promise.all([connection.execute('SELECT VERSION() AS version')]);
+        const [rows] = await connection.execute('SELECT VERSION() AS version');
         //const [rows] = connection.execute('SELECT VERSION() AS version');
 
         console.log("Database version:");
         console.dir(rows);
 
         //Close connection
+        await sleep(10000);
         await connection.end();
         console.log("Database connection ended");
 
     } catch (error) {
+        console.error("Database connection failed");
         console.error(error);
     }
 }
 
-console.log('Happy developing ✨')
+console.log('Happy developing ✨');
 connectToDatabaseSSL();
